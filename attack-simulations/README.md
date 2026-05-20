@@ -18,17 +18,17 @@ The testing process follows a structured **Attack-to-Detection** cycle:
 
 The following scenarios were chosen to represent common stages of the **Cyber Kill Chain**:
 
-### 1. Reconnaissance (T1595)
+### 1. Reconnaissance
 * **Goal:** Identify open ports and service versions on Windows/Linux targets.
 * **Mechanism:** Using `Nmap` for stealthy SYN scans.
 * **Defensive Proof:** Suricata signature match for "Potential SSH Scan" or "Nmap Scripting Engine".
 
-### 2. Credential Access (T1110)
+### 2. Credential Access
 * **Goal:** Compromise user accounts via SSH brute-force.
 * **Mechanism:** `Hydra` automation using the `rockyou.txt` wordlist.
 * **Defensive Proof:** Wazuh Rule 5712 (SSHD Brute Force) - detection of 8+ failed logins within 2 minutes.
 
-### 3. Impact / Denial of Service (T1498)
+### 3. Impact / Denial of Service
 * **Goal:** Disrupt service availability through network volumetric flooding.
 * **Mechanism:** `Hping3` ICMP flood.
 * **Defensive Proof:** Suricata anomaly detection for high-frequency ICMP packets.
