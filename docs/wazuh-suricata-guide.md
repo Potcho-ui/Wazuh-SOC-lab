@@ -112,48 +112,48 @@ To verify the operational integrity of the detection pipeline, controlled simula
 
 ### Scenario A: Network Reconnaissance
 
-Action: A stealthy port scan and OS fingerprinting attempt were performed against the Windows endpoint (192.168.10.30).
+* Action: A stealthy port scan and OS fingerprinting attempt were performed against the Windows endpoint (192.168.10.30).
 
-Command: 
+* Command: 
 ```bash
 sudo nmap -sS -O 192.168.10.30 
 ```
 
-Expected Outcome: Suricata IDS identifies the semi-open SYN scan patterns and generates a signature match alert in the EVE JSON log.
+* Expected Outcome: Suricata IDS identifies the semi-open SYN scan patterns and generates a signature match alert in the EVE JSON log.
 
 
 ### Scenario B: Authentication Abuse (Brute Force)
 
-Action: A high-volume dictionary attack was launched against the SSH service of the Linux endpoint (192.168.10.50) using the rockyou.txt wordlist.
+* Action: A high-volume dictionary attack was launched against the SSH service of the Linux endpoint (192.168.10.50) using the rockyou.txt wordlist.
 
-Command: 
+* Command: 
 ```bash 
 hydra -l user -P rockyou.txt ssh://192.168.10.50
 ```
 
-Expected Outcome: The Wazuh Agent on the target machine monitors failed authentication logs, triggering Wazuh Rule 5712 (SSHD Brute Force) once the threshold is exceeded.
+* Expected Outcome: The Wazuh Agent on the target machine monitors failed authentication logs, triggering Wazuh Rule 5712 (SSHD Brute Force) once the threshold is exceeded.
 
 
 ### Scenario C: Denial of Service (ICMP Flood)
 
-Action: A volumetric network attack was simulated by flooding the Linux endpoint (192.168.10.50) with high-velocity ICMP Echo Requests.
+* Action: A volumetric network attack was simulated by flooding the Linux endpoint (192.168.10.50) with high-velocity ICMP Echo Requests.
 
-Command: 
+* Command: 
 ```bash 
 sudo hping3 --icmp --flood 192.168.10.50
 ```
 
-Expected Outcome: Suricata detects the abnormal surge in ICMP traffic and triggers an anomaly-based alert for a potential DoS condition.
+* Expected Outcome: Suricata detects the abnormal surge in ICMP traffic and triggers an anomaly-based alert for a potential DoS condition.
 
 ## 📊 6. Visualization & Monitoring
 
-* Login to the Wazuh Dashboard (https://192.168.x.x).
+* Login to the Wazuh Dashboard (192.168.x.x).
 
-### Navigate to Security Events or Discover.
+* Navigate to Security Events or Discover.
 
-### Use filters like location: suricata or search for Rule IDs 86600 - 86604.
+* Use filters like location: suricata or search for Rule IDs 86600 - 86604.
 
-### Verification: Real-time alerts should appear, confirming the successful integration of host and network telemetry.
+* Verification: Real-time alerts should appear, confirming the successful integration of host and network telemetry.
 
 ## 🛑 Security Disclaimer:
 
