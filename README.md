@@ -1,24 +1,36 @@
-# Wazuh-SOC-lab
+<div align="center">
 
-A hands-on Security Operations Center (SOC) lab built with Wazuh, Suricata, VMware, and attack simulations to monitor, detect, and analyze security events in a virtual enterprise network.
+# 🛡️ SOC Lab — Wazuh & Suricata
 
-![SOC Architecture](architecture/network-architecture.png)
+<!-- Les Badges avec icônes officielles -->
+<img src="https://img.shields.io/badge/Wazuh-SIEM-00A4E4?style=for-the-badge&logo=wazuh&logoColor=white" alt="Wazuh" />
+<img src="https://img.shields.io/badge/Suricata-IDS-EF3B2C?style=for-the-badge&logo=suricata&logoColor=white" alt="Suricata" />
+<img src="https://img.shields.io/badge/VMware-Lab-607078?style=for-the-badge&logo=vmware&logoColor=white" alt="VMware" />
+<img src="https://img.shields.io/badge/Project-Active-238636?style=for-the-badge&logo=github&logoColor=white" alt="Status" />
+
+<p align="center">
+  <b>Real-time threat detection and centralized log monitoring environment.</b>
+</p>
 
 ---
 
-## Overview
+</div>
 
-This project demonstrates the implementation of a virtual Security Operations Center (SOC) using open-source technologies.
+## 📌 Project Overview
 
-The lab environment was designed to simulate a small enterprise infrastructure where security monitoring, intrusion detection, log analysis, and attack detection can be performed in real time.
+This project documents the implementation of a complete Security Operations Center (SOC) lab using **Wazuh** as the centralized SIEM solution and **Suricata** for network intrusion detection (IDS).
 
-The SOC integrates:
+The environment was designed to simulate a small enterprise infrastructure where security monitoring, attack detection, log analysis, and incident investigation can be performed in real time.
+
+The SOC infrastructure integrates:
 
 - Wazuh SIEM
 - Suricata IDS
 - VMware virtualized infrastructure
-- Windows and Linux endpoints
-- Attack simulations for detection testing
+- Windows and Linux monitored endpoints
+- Attack simulation scenarios for threat detection testing
+
+![SOC Architecture](architecture/network-architecture.png)
 
 ---
 
