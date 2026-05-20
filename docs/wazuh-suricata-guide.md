@@ -147,7 +147,7 @@ Expected Outcome: Suricata detects the abnormal surge in ICMP traffic and trigge
 
 ## 📊 6. Visualization & Monitoring
 
-### Login to the Wazuh Dashboard (https://192.168.x.x).
+* Login to the Wazuh Dashboard (https://192.168.x.x).
 
 ### Navigate to Security Events or Discover.
 
