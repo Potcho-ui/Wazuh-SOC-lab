@@ -29,7 +29,8 @@ sudo add-apt-repository ppa:oisf/suricata-stable
 sudo apt update && sudo apt install suricata jq -y
 ```
 
-Traffic Inspection Configuration
+### Traffic Inspection Configuration
+
 Edit the main configuration file: 
 ```bash
 sudo nano /etc/suricata/suricata.yaml
@@ -52,21 +53,24 @@ af-packet:
     defrag: yes
 ```
     
-Update Signatures & Start Service
+### Update Signatures & Start Service
 ```Bash
 sudo suricata-update
 sudo systemctl enable suricata && sudo systemctl start suricata
 ```
 
-🎛️ 3. SIEM Deployment & Agent Enrollment (Wazuh)
-Central Manager Installation
+## 🎛️ 3. SIEM Deployment & Agent Enrollment (Wazuh)
+
+### Central Manager Installation
+
 On the SIEM-WAZUH machine, run the automated installation script:
 ```Bash
 curl -sO [https://packages.wazuh.com/4.x/wazuh-install.sh](https://packages.wazuh.com/4.x/wazuh-install.sh)
 sudo bash wazuh-install.sh -a
 ```
 
-Endpoint Agent Deployment
+### Endpoint Agent Deployment
+
 On the target machines (Windows/Linux), install the Wazuh Agent and point it to the Manager's IP:
 ```Bash
 # Example for Ubuntu Client
@@ -75,9 +79,12 @@ sudo WAZUH_MANAGER='192.168.10.10' dpkg -i wazuh-agent_4.x_amd64.deb
 sudo systemctl enable wazuh-agent && sudo systemctl start wazuh-agent
 ```
 
-🔄 4. Log Ingestion Pipeline (Integration)
+## 🔄 4. Log Ingestion Pipeline (Integration)
+
 This is the critical step where Wazuh is configured to ingest Suricata's network alerts.
-Configure Wazuh Logcollector
+
+### Configure Wazuh Logcollector
+
 On the machine where Suricata is running, modify the Wazuh Agent configuration: 
 ```bash
 sudo nano /var/ossec/etc/ossec.conf
@@ -93,46 +100,61 @@ Add the following block:
 </ossec_config>
 ```
 
-Apply Changes
+### Apply Changes
 ```Bash
 sudo systemctl restart suricata
 sudo systemctl restart wazuh-agent
 ```
 
-⚔️ 5. Threat Emulation & SOC Validation
+## ⚔️ 5. Threat Emulation & SOC Validation
+
 To verify the operational integrity of the detection pipeline, controlled simulations were conducted from the Kali-Attacker machine. Each scenario was designed to trigger specific detection engines and validate the alerting workflow.
 
-Scenario A: Network Reconnaissance
+### Scenario A: Network Reconnaissance
+
 Action: A stealthy port scan and OS fingerprinting attempt were performed against the Windows endpoint (192.168.10.30).
+
 Command: 
 ```bash
 sudo nmap -sS -O 192.168.10.30 
 ```
+
 Expected Outcome: Suricata IDS identifies the semi-open SYN scan patterns and generates a signature match alert in the EVE JSON log.
 
 
-Scenario B: Authentication Abuse (Brute Force)
+### Scenario B: Authentication Abuse (Brute Force)
+
 Action: A high-volume dictionary attack was launched against the SSH service of the Linux endpoint (192.168.10.50) using the rockyou.txt wordlist.
+
 Command: 
 ```bash 
 hydra -l user -P rockyou.txt ssh://192.168.10.50
 ```
+
 Expected Outcome: The Wazuh Agent on the target machine monitors failed authentication logs, triggering Wazuh Rule 5712 (SSHD Brute Force) once the threshold is exceeded.
 
 
-Scenario C: Denial of Service (ICMP Flood)
+### Scenario C: Denial of Service (ICMP Flood)
+
 Action: A volumetric network attack was simulated by flooding the Linux endpoint (192.168.10.50) with high-velocity ICMP Echo Requests.
+
 Command: 
 ```bash 
 sudo hping3 --icmp --flood 192.168.10.50
 ```
+
 Expected Outcome: Suricata detects the abnormal surge in ICMP traffic and triggers an anomaly-based alert for a potential DoS condition.
 
-📊 6. Visualization & Monitoring
-** Login to the Wazuh Dashboard (https://192.168.10.10).
-** Navigate to Security Events or Discover.
-** Use filters like location: suricata or search for Rule IDs 86600 - 86604.
-** Verification: Real-time alerts should appear, confirming the successful integration of host and network telemetry.
+## 📊 6. Visualization & Monitoring
 
-🛑 Security Disclaimer:
+### Login to the Wazuh Dashboard (https://192.168.x.x).
+
+### Navigate to Security Events or Discover.
+
+### Use filters like location: suricata or search for Rule IDs 86600 - 86604.
+
+### Verification: Real-time alerts should appear, confirming the successful integration of host and network telemetry.
+
+## 🛑 Security Disclaimer:
+
 This lab was built strictly for educational purposes in a private, isolated environment. No unauthorized networks were targeted.
